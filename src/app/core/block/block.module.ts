@@ -4,9 +4,10 @@ import { BlockListComponent } from './block-list/block-list.component';
 import { BlockDetailComponent } from './block-detail/block-detail.component';
 import { NewBlockComponent } from './new-block/new-block.component';
 import { EditBlockComponent } from './edit-block/edit-block.component';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, MaterialModule],
   declarations: [
     BlockListComponent,
     BlockDetailComponent,

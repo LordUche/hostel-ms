@@ -4,9 +4,10 @@ import { HostelListComponent } from './hostel-list/hostel-list.component';
 import { HostelDetailComponent } from './hostel-detail/hostel-detail.component';
 import { NewHostelComponent } from './new-hostel/new-hostel.component';
 import { EditHostelComponent } from './edit-hostel/edit-hostel.component';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, MaterialModule],
   declarations: [
     HostelListComponent,
     HostelDetailComponent,
