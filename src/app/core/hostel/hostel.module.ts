@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HostelListComponent } from './hostel-list/hostel-list.component';
 import { HostelDetailComponent } from './hostel-detail/hostel-detail.component';
 import { NewHostelComponent } from './new-hostel/new-hostel.component';
-import { EditHostelComponent } from './edit-hostel/edit-hostel.component';
 import { MaterialModule } from '../material.module';
+import { CoreModule } from '../core.module';
 
 @NgModule({
-  imports: [CommonModule, MaterialModule],
+  imports: [MaterialModule, CoreModule],
   declarations: [
     HostelListComponent,
     HostelDetailComponent,
     NewHostelComponent,
-    EditHostelComponent,
   ],
+  entryComponents: [NewHostelComponent],
 })
 export class HostelModule {}

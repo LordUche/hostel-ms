@@ -1,5 +1,5 @@
 export interface Hostel {
-  id: string;
+  id?: string;
   name: string;
   gender: 'male' | 'female';
   blockCount: number;

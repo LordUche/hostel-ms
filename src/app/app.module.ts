@@ -9,6 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { environment } from '../environments/environment';
+import { HostelModule } from './core/hostel/hostel.module';
+import { BlockModule } from './core/block/block.module';
+import { RoomModule } from './core/room/room.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,8 +23,10 @@ import { environment } from '../environments/environment';
     SharedModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    HostelModule,
+    BlockModule,
+    RoomModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
