@@ -4,21 +4,21 @@ import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './error/error.component';
 import { LoginComponent } from './login/login.component';
 import { MaterialModule } from './material.module';
-import { OccupantModule } from './occupant/occupant.module';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
-    OccupantModule,
     LayoutModule,
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    RouterModule,
   ],
   declarations: [
     HomeComponent,
@@ -29,11 +29,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   exports: [
     CommonModule,
     MaterialModule,
-    OccupantModule,
     LayoutModule,
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    RouterModule,
   ],
 })
 export class CoreModule {}

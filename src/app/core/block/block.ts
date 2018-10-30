@@ -1,5 +1,5 @@
 export interface Block {
-  id: string;
+  id?: string;
   name: string;
   roomCount: number;
   hostelId: string;

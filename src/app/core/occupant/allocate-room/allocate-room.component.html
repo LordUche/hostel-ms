@@ -1,3 +1,63 @@
-<p>
-  allocate-room works!
-</p>
+<div fxLayout="column" fxLayoutAlign="center center">
+  <mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-step fxLayoutAlign="center center" [stepControl]="hostelForm" label="Choose your preferred hostel">
+      <form #form1 [formGroup]="hostelForm" (ngSubmit)="fetchBlocks()">
+        <mat-form-field>
+          <mat-select placeholder="Pick a hostel" formControlName="hostel">
+            <mat-option *ngFor="let hostel of hostels" [value]="hostel">
+              {{hostel.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error>Please pick a hostel</mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-flat-button matStepperNext type="submit" [disabled]="form1.invalid" color="primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="blockForm" label="Choose your preferred block">
+      <form #form2 [formGroup]="blockForm">
+        <mat-form-field>
+          <mat-select placeholder="Pick a block" formControlName="block">
+            <mat-option *ngFor="let block of blocks" [value]="block">
+              {{block.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error>Please pick a block</mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-flat-button matStepperPrevious>Back</button>
+          <button mat-flat-button matStepperNext [disabled]="form2.invalid" color="primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="roomForm" label="Choose a room">
+      <form #form3 [formGroup]="roomForm">
+        <mat-form-field>
+          <mat-select placeholder="Pick a room" formControlName="room" name="room">
+            <mat-option *ngFor="let room of rooms" [value]="room">
+              {{room.roomNo}}
+            </mat-option>
+          </mat-select>
+          <mat-error>Please pick a room</mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-flat-button matStepperPrevious>Back</button>
+          <button mat-flat-button matStepperNext [disabled]="form3.invalid" color="primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step label="Done">
+      <div>
+        <span class="mat-tab-header">Please confirm your selections</span>
+        <div><span>Hostel:</span> {{hostel?.name}}</div>
+        <div><span>Block:</span> {{block?.name}}</div>
+        <div><span>Room No.:</span> {{room?.roomNo}}</div>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="allocateRoom()">Finish</button>
+        </div>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

@@ -36,13 +36,11 @@ export class HostelService {
       .collection(this.baseUrl)
       .doc<Hostel>(id)
       .valueChanges()
-      .subscribe(hostel => this.hostel$.next(hostel));
+      .subscribe(hostel => this.hostel$.next({ id, ...hostel }));
   }
 
   create(hostel: Hostel): Promise<DocumentReference> {
-    return this.afs
-      .collection<Hostel>(this.baseUrl)
-      .add(hostel);
+    return this.afs.collection<Hostel>(this.baseUrl).add(hostel);
   }
 
   update(id: string, data: Partial<Hostel>): Promise<void> {
