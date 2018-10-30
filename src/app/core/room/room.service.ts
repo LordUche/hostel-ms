@@ -14,7 +14,7 @@ export class RoomService {
 
   constructor(private afs: AngularFirestore, private bs: BlockService) {}
 
-  getAll(blockId: string) {
+  getAll(blockId: string): Promise<Room[]> {
     return this.afs
       .collection<Room>(this.baseUrl)
       .ref.where('blockId', '==', blockId)
@@ -32,6 +32,7 @@ export class RoomService {
           };
         });
         this.rooms$.next(rooms);
+        return rooms as Room[];
       });
   }
 

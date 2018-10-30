@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Hostel } from '../../hostel/hostel';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HostelService } from '../../hostel/hostel.service';
@@ -6,16 +6,20 @@ import { Block } from '../../block/block';
 import { Room } from '../../room/room';
 import { RoomService } from '../../room/room.service';
 import { BlockService } from '../../block/block.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-allocate-room',
   templateUrl: './allocate-room.component.html',
   styles: [],
 })
-export class AllocateRoomComponent implements OnInit {
+export class AllocateRoomComponent implements OnInit, OnDestroy {
   hostels: Hostel[];
   blocks: Block[];
   rooms: Room[];
+  hostelsSubs: Subscription;
+  blocksSubs: Subscription;
+  roomsSubs: Subscription;
 
   hostelForm = this.fb.group({
     hostel: [null, Validators.required],
@@ -35,9 +39,13 @@ export class AllocateRoomComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.hs.hostels$.subscribe(hostels => (this.hostels = hostels));
-    this.bs.blocks$.subscribe(blocks => (this.blocks = blocks));
-    this.rs.rooms$.subscribe(rooms => (this.rooms = rooms));
+    this.hostelsSubs = this.hs.hostels$.subscribe(
+      hostels => (this.hostels = hostels)
+    );
+    this.blocksSubs = this.bs.blocks$.subscribe(
+      blocks => (this.blocks = blocks)
+    );
+    this.roomsSubs = this.rs.rooms$.subscribe(rooms => (this.rooms = rooms));
 
     this.hs.getAll();
   }
@@ -63,4 +71,10 @@ export class AllocateRoomComponent implements OnInit {
   }
 
   allocateRoom() {}
+
+  ngOnDestroy(): void {
+    this.hostelsSubs.unsubscribe();
+    this.blocksSubs.unsubscribe();
+    this.roomsSubs.unsubscribe();
+  }
 }
