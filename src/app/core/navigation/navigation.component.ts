@@ -48,6 +48,7 @@ export class NavigationComponent {
 
   logout() {
     this.auth.signOut();
+    this.user = null;
     this.router.navigate(['']);
   }
 

@@ -16,7 +16,7 @@ export class StudentGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.auth.user$.pipe(
       take(1),
-      map(user => user && user.roles.subscriber ? true : false),
+      map(user => user && user.roles.subscriber && !user.roles.admin ? true : false),
       tap(canView => {
         if (!canView) {
           console.error('Access denied. Must have permission');
