@@ -13,9 +13,10 @@ import { environment } from '../environments/environment';
 import { HostelModule } from './core/hostel/hostel.module';
 import { BlockModule } from './core/block/block.module';
 import { RoomModule } from './core/room/room.module';
+import { NavigationComponent } from './core/navigation/navigation.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, NavigationComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

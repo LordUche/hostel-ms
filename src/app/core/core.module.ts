@@ -24,7 +24,6 @@ import { RouterModule } from '@angular/router';
     HomeComponent,
     ErrorComponent,
     LoginComponent,
-    NavigationComponent,
   ],
   exports: [
     CommonModule,

@@ -22,10 +22,6 @@ export class HostelDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     private bs: BlockService,
     private route: ActivatedRoute
   ) {
-    this.route.paramMap.subscribe(params => {
-      this.hs.get(params.get('id'));
-      this.bs.getAll(params.get('id'));
-    });
   }
 
   ngOnInit() {
@@ -35,6 +31,10 @@ export class HostelDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.blocksSubs = this.bs.blocks$.subscribe(
       blocks => (this.blocks = blocks)
     );
+    this.route.paramMap.subscribe(params => {
+      this.hs.get(params.get('id'));
+      this.bs.getAll(params.get('id'));
+    });
   }
 
   ngAfterViewInit() {}

@@ -7,17 +7,20 @@ import { HostelDetailComponent } from './core/hostel/hostel-detail/hostel-detail
 import { BlockDetailComponent } from './core/block/block-detail/block-detail.component';
 import { LoginComponent } from './core/login/login.component';
 import { AllocateRoomComponent } from './core/occupant/allocate-room/allocate-room.component';
+import { HomeComponent } from "./core/home/home.component";
+import { AdminGuard } from './shared/admin.guard';
+import { StudentGuard } from './shared/student.guard';
 
 const routes: Routes = [
-  { path: '', component: HostelListComponent },
-  { path: 'hostels', component: HostelListComponent },
+  { path: '', component: LoginComponent },
+  { path: 'hostels', component: HostelListComponent, canActivate: [AdminGuard] },
   {
     path: 'hostels/:id',
-    component: HostelDetailComponent,
+    component: HostelDetailComponent, canActivate: [AdminGuard]
   },
-  { path: 'blocks/:id', component: BlockDetailComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: AllocateRoomComponent },
+  { path: 'blocks/:id', component: BlockDetailComponent, canActivate: [AdminGuard] },
+  { path: 'home', component: HomeComponent },
+  { path: 'register', component: AllocateRoomComponent, canActivate: [StudentGuard] },
 ];
 
 @NgModule({

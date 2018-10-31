@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Block } from './block';
-import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
+import {
+  AngularFirestore,
+  DocumentReference,
+} from '@angular/fire/firestore';
 import { HostelService } from '../hostel/hostel.service';
-import { Hostel } from '../hostel/hostel';
+import { Room } from '../room/room';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +18,11 @@ export class BlockService {
 
   constructor(private afs: AngularFirestore, private hs: HostelService) {}
 
-  getAll(hostelId: string): Promise<Block[]> {
+  getAll(hostelId: string) {
     return this.afs
       .collection<Block>(this.baseUrl)
       .ref.where('hostelId', '==', hostelId)
-      .get()
-      .then(snapshot => {
+      .onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
           if (change.type === 'added' || change.type === 'removed') {
             this.hs.update(hostelId, { blockCount: snapshot.size });
@@ -34,7 +35,6 @@ export class BlockService {
           };
         });
         this.blocks$.next(blocks);
-        return blocks as Block[];
       });
   }
 
@@ -59,8 +59,22 @@ export class BlockService {
 
   delete(id: string): Promise<void> {
     return this.afs
-      .collection(this.baseUrl)
-      .doc(id)
-      .delete();
+      .collection<Room>('rooms')
+      .ref.where('blockId', '==', id)
+      .get()
+      .then(snapshot => {
+        this.deleteAllRooms(snapshot.docs).then(() => {
+          this.afs
+            .collection(this.baseUrl)
+            .doc(id)
+            .delete();
+        });
+      });
+  }
+
+  private deleteAllRooms(rooms): Promise<void> {
+    return rooms
+      .map(room => this.afs.doc(room.id).delete())
+      .reduce((a, b) => b);
   }
 }

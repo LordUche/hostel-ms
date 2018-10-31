@@ -38,10 +38,10 @@ export class NewBlockComponent implements OnInit, OnDestroy {
         roomCount: 0,
       };
       this.bs.create(newBlock).then(blockRef => {
-        this.form.reset();
-        this.dialogRef.close();
         this.router.navigate([this.bs.baseUrl, blockRef.id]);
       });
+      this.form.reset();
+      this.dialogRef.close();
     }
   }
 

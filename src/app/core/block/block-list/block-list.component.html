@@ -12,16 +12,23 @@
 <div class="mat-elevation-z8" *ngIf="dataSource.data.length; else message">
 
   <table mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
+
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
       <td mat-cell *matCellDef="let row">{{row.name}}</td>
     </ng-container>
 
+    <!-- Room Count Column -->
+    <ng-container matColumnDef="roomCount">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>No. of rooms</th>
+      <td mat-cell *matCellDef="let row">{{row.roomCount}}</td>
+    </ng-container>
+
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let row"><button mat-icon-button color="warn">
+      <td mat-cell *matCellDef="let row"><button mat-icon-button color="warn" (click)="delete(row)">
           <mat-icon>delete</mat-icon>
         </button></td>
     </ng-container>

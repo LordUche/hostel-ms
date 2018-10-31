@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from '../../shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,9 +20,19 @@ export class LoginComponent implements OnInit {
     password: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private afAuth: AngularFireAuth) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.auth.user$ !== null) {
+      this.auth.user$.subscribe(user => {
+        if (user && this.auth.canDelete(user)) {
+          this.router.navigate(['/hostels'], { skipLocationChange: true });
+        } else if (user && user.roles.subscriber) {
+          this.router.navigate(['/register'], { skipLocationChange: true });
+        }
+      });
+    }
+  }
 
   get email() {
     return this.form.get('email');
@@ -33,7 +44,7 @@ export class LoginComponent implements OnInit {
 
   signIn() {
     if (this.form.valid) {
-      this.afAuth.auth.signInWithEmailAndPassword(
+      this.auth.signIn(
         this.email.value,
         this.password.value
       );

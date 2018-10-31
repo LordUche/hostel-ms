@@ -39,10 +39,10 @@ export class NewHostelComponent implements OnInit, OnDestroy {
         blockCount: 0,
       };
       this.hs.create(newHostel).then(hostelRef => {
-        this.form.reset();
-        this.dialogRef.close();
         this.router.navigate([this.hs.baseUrl, hostelRef.id]);
       });
+        this.form.reset();
+        this.dialogRef.close();
     }
   }
 

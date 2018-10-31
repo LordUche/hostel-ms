@@ -19,22 +19,22 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import { DeleteDialogComponent } from '../../../shared/delete-dialog/delete-dialog.component';
 import { NewBlockComponent } from '../new-block/new-block.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-block-list',
   templateUrl: './block-list.component.html',
   styleUrls: ['./block-list.component.scss'],
 })
-export class BlockListComponent implements OnInit, AfterViewInit {
+export class BlockListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort;
-  @Input()
   hostelId: string;
-  @Input()
-  blocks: Block[];
-  dataSource = new MatTableDataSource<Block>();
+  blocksSubs: Subscription;
+
+  dataSource = new MatTableDataSource<Block>([]);
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['name', 'roomCount', 'actions'];
 
@@ -45,15 +45,21 @@ export class BlockListComponent implements OnInit, AfterViewInit {
   constructor(
     private bs: BlockService,
     private breakpoint: BreakpointObserver,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
-    console.log(this.blocks);
+  async ngOnInit() {
+    this.blocksSubs = this.bs.blocks$.subscribe(
+      blocks => (this.dataSource.data = blocks)
+    );
+    await this.route.paramMap.subscribe(params => {
+      this.hostelId = params.get('id');
+    });
+    this.bs.getAll(this.hostelId);
   }
 
   ngAfterViewInit() {
-    this.dataSource.data = this.blocks;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -79,5 +85,9 @@ export class BlockListComponent implements OnInit, AfterViewInit {
           this.bs.delete(block.id);
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.blocksSubs.unsubscribe();
   }
 }

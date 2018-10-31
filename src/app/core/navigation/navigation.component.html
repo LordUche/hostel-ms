@@ -1,27 +1,29 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="!(isHandset$ | async)">
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>hostel-ms</span>
-    </mat-toolbar>
-    <!-- Add Content Here -->
-  </mat-sidenav-content>
+<mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+[mode]="(isHandset$ | async) ? 'over' : 'side'"
+[opened]="!(isHandset$ | async)">
+<mat-toolbar>Menu</mat-toolbar>
+<mat-nav-list>
+<a mat-list-item *ngIf="user" (click)="logout()" routerLinkActive="mat-accent">Logout</a>
+<a mat-list-item *ngIf="user?.roles.subscriber && !isAdmin" [routerLink]="['/register']" routerLinkActive="mat-accent">Register</a>
+<a mat-list-item *ngIf="user?.roles.admin" [routerLink]="['/hostels']" routerLinkActive="mat-accent">Hostels</a>
+</mat-nav-list>
+</mat-sidenav>
+<mat-sidenav-content>
+<mat-toolbar fxLayoutAlign="space-between center" color="primary">
+<button
+type="button"
+aria-label="Toggle sidenav"
+mat-icon-button
+(click)="drawer.toggle()"
+*ngIf="isHandset$ | async">
+<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+</button>
+<span>Hostel Management System</span>
+<button mat-button (click)="logout()">Logout</button>
+</mat-toolbar>
+<!-- Add Content Here -->
+<router-outlet></router-outlet>
+</mat-sidenav-content>
 </mat-sidenav-container>
