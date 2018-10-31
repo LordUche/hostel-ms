@@ -49,14 +49,14 @@ export class BlockListComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  async ngOnInit() {
-    this.blocksSubs = this.bs.blocks$.subscribe(
-      blocks => (this.dataSource.data = blocks)
-    );
-    await this.route.paramMap.subscribe(params => {
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.blocksSubs = this.bs.blocks$.subscribe(
+        blocks => (this.dataSource.data = blocks)
+      );
       this.hostelId = params.get('id');
+      this.bs.getAll(this.hostelId);
     });
-    this.bs.getAll(this.hostelId);
   }
 
   ngAfterViewInit() {

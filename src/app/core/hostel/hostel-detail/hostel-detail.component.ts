@@ -13,6 +13,7 @@ import { Block } from '../../block/block';
 })
 export class HostelDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   hostel: Hostel;
+  hostelId: string;
   blocks: Block[];
   hostelSubs: Subscription;
   blocksSubs: Subscription;
@@ -32,6 +33,7 @@ export class HostelDetailComponent implements OnInit, AfterViewInit, OnDestroy {
       blocks => (this.blocks = blocks)
     );
     this.route.paramMap.subscribe(params => {
+      this.hostelId = params.get('id');
       this.hs.get(params.get('id'));
       this.bs.getAll(params.get('id'));
     });

@@ -16,7 +16,11 @@ const routes: Routes = [
   { path: 'hostels', component: HostelListComponent, canActivate: [AdminGuard] },
   {
     path: 'hostels/:id',
-    component: HostelDetailComponent, canActivate: [AdminGuard]
+    component: HostelDetailComponent,
+    canActivate: [AdminGuard],
+    children: [
+      { path: '', component: BlockListComponent }
+    ]
   },
   { path: 'blocks/:id', component: BlockDetailComponent, canActivate: [AdminGuard] },
   { path: 'home', component: HomeComponent },

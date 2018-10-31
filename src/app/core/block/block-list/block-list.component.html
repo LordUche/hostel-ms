@@ -1,48 +1,40 @@
 <div class="search" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
   <mat-form-field fxFlex="70%" appearance="outline">
-    <mat-label>Search filter</mat-label>
-    <input matInput type="search" #searchTerm (keyup)="filter(searchTerm.value)">
-    <mat-icon matPrefix>search</mat-icon>
+  <mat-label>Search filter</mat-label>
+  <input matInput type="search" #searchTerm (keyup)="filter(searchTerm.value)">
+  <mat-icon matPrefix>search</mat-icon>
   </mat-form-field>
-
   <button (click)="addBlock()" mat-stroked-button>
-    <mat-icon>add</mat-icon>
+  <mat-icon>add</mat-icon>
   </button>
 </div>
-<div class="mat-elevation-z8" *ngIf="dataSource.data.length; else message">
-
+<div class="mat-elevation-z8">
   <table mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
-
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let row">{{row.name}}</td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <td mat-cell *matCellDef="let row"><a [routerLink]="['/blocks', row.id]">{{row.name}}</a></td>
     </ng-container>
-
     <!-- Room Count Column -->
     <ng-container matColumnDef="roomCount">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>No. of rooms</th>
-      <td mat-cell *matCellDef="let row">{{row.roomCount}}</td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>No. of rooms</th>
+    <td mat-cell *matCellDef="let row">{{row.roomCount}}</td>
     </ng-container>
-
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let row"><button mat-icon-button color="warn" (click)="delete(row)">
-          <mat-icon>delete</mat-icon>
-        </button></td>
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let row"><button mat-icon-button color="warn" (click)="delete(row)">
+      <mat-icon>delete</mat-icon>
+    </button></td>
     </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-
-  <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
-  </mat-paginator>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
+</mat-paginator>
 </div>
-
 <ng-template #message>
-  <div fxLayoutAlign="center">
-    No blocks to display. Click the plus [+] button to add a block.
-  </div>
+<div fxLayoutAlign="center">
+No blocks to display. Click the plus [+] button to add a block.
+</div>
 </ng-template>

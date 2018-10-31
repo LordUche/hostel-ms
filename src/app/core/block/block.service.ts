@@ -58,23 +58,23 @@ export class BlockService {
   }
 
   delete(id: string): Promise<void> {
-    return this.afs
+    this.afs
       .collection<Room>('rooms')
       .ref.where('blockId', '==', id)
       .get()
       .then(snapshot => {
-        this.deleteAllRooms(snapshot.docs).then(() => {
-          this.afs
-            .collection(this.baseUrl)
-            .doc(id)
-            .delete();
-        });
+        this.deleteAllRooms(snapshot.docs).then(arr => console.log(arr));
       });
+    
+    return this.afs
+      .collection(this.baseUrl)
+      .doc(id)
+      .delete();
   }
 
-  private deleteAllRooms(rooms): Promise<void> {
-    return rooms
-      .map(room => this.afs.doc(room.id).delete())
-      .reduce((a, b) => b);
+  private deleteAllRooms(rooms): Promise<any[]> {
+    return new Promise((res, rej) => {
+      res(rooms.map(room => this.afs.collection('rooms').doc(room.id).delete().then(()=> 1).catch(e => e)))
+    });
   }
 }
